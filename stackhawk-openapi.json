@@ -12,6 +12,7 @@
      "meta"
     ],
     "summary": "Health",
+    "description": "Liveness: the process is up. Public, so it says nothing about the system.",
     "operationId": "health_health_get",
     "responses": {
      "200": {
@@ -25,8 +26,27 @@
        }
       }
      }
-    },
-    "parameters": []
+    }
+   }
+  },
+  "/health/ready": {
+   "get": {
+    "tags": [
+     "meta"
+    ],
+    "summary": "Ready",
+    "description": "Readiness: the process is up and can reach its database. Public and minimal.",
+    "operationId": "ready_health_ready_get",
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      }
+     }
+    }
    }
   },
   "/auth/login": {
@@ -67,8 +87,7 @@
        }
       }
      }
-    },
-    "parameters": []
+    }
    }
   },
   "/auth/me": {
@@ -94,8 +113,7 @@
      {
       "HTTPBearer": []
      }
-    ],
-    "parameters": []
+    ]
    }
   },
   "/stores": {
@@ -192,8 +210,7 @@
        }
       }
      }
-    },
-    "parameters": []
+    }
    }
   },
   "/stores/{store_id}": {
@@ -215,6 +232,8 @@
       "required": true,
       "schema": {
        "type": "integer",
+       "maximum": 2147483647,
+       "minimum": 1,
        "title": "Store Id"
       }
      }
@@ -270,6 +289,8 @@
       "required": true,
       "schema": {
        "type": "integer",
+       "maximum": 2147483647,
+       "minimum": 1,
        "title": "Store Id"
       }
      }
@@ -311,7 +332,9 @@
       "schema": {
        "anyOf": [
         {
-         "type": "integer"
+         "type": "integer",
+         "maximum": 2147483647,
+         "minimum": 1
         },
         {
          "type": "null"
@@ -406,8 +429,7 @@
        }
       }
      }
-    },
-    "parameters": []
+    }
    }
   },
   "/users/{user_id}": {
@@ -429,6 +451,8 @@
       "required": true,
       "schema": {
        "type": "integer",
+       "maximum": 2147483647,
+       "minimum": 1,
        "title": "User Id"
       }
      }
@@ -484,6 +508,8 @@
       "required": true,
       "schema": {
        "type": "integer",
+       "maximum": 2147483647,
+       "minimum": 1,
        "title": "User Id"
       }
      }
@@ -598,8 +624,7 @@
        }
       }
      }
-    },
-    "parameters": []
+    }
    }
   },
   "/print-formats/{format_id}": {
@@ -621,6 +646,8 @@
       "required": true,
       "schema": {
        "type": "integer",
+       "maximum": 2147483647,
+       "minimum": 1,
        "title": "Format Id"
       }
      }
@@ -676,6 +703,8 @@
       "required": true,
       "schema": {
        "type": "integer",
+       "maximum": 2147483647,
+       "minimum": 1,
        "title": "Format Id"
       }
      }
@@ -741,8 +770,7 @@
      {
       "HTTPBearer": []
      }
-    ],
-    "parameters": []
+    ]
    }
   },
   "/print-formats/fit-text": {
@@ -789,8 +817,7 @@
      {
       "HTTPBearer": []
      }
-    ],
-    "parameters": []
+    ]
    }
   },
   "/print-formats/page-sizes": {
@@ -821,8 +848,7 @@
      {
       "HTTPBearer": []
      }
-    ],
-    "parameters": []
+    ]
    }
   },
   "/print-formats/fonts": {
@@ -853,8 +879,7 @@
      {
       "HTTPBearer": []
      }
-    ],
-    "parameters": []
+    ]
    }
   },
   "/print-formats/upload-font": {
@@ -898,8 +923,7 @@
      {
       "HTTPBearer": []
      }
-    ],
-    "parameters": []
+    ]
    }
   },
   "/print-formats/upload-psd": {
@@ -944,8 +968,7 @@
      {
       "HTTPBearer": []
      }
-    ],
-    "parameters": []
+    ]
    }
   },
   "/orders": {
@@ -1010,7 +1033,9 @@
       "schema": {
        "anyOf": [
         {
-         "type": "integer"
+         "type": "integer",
+         "maximum": 2147483647,
+         "minimum": 1
         },
         {
          "type": "null"
@@ -1103,7 +1128,9 @@
       "schema": {
        "anyOf": [
         {
-         "type": "integer"
+         "type": "integer",
+         "maximum": 2147483647,
+         "minimum": 1
         },
         {
          "type": "null"
@@ -1156,6 +1183,8 @@
       "required": true,
       "schema": {
        "type": "integer",
+       "maximum": 2147483647,
+       "minimum": 1,
        "title": "Order Id"
       }
      }
@@ -1204,6 +1233,8 @@
       "required": true,
       "schema": {
        "type": "integer",
+       "maximum": 2147483647,
+       "minimum": 1,
        "title": "Order Id"
       }
      }
@@ -1262,6 +1293,8 @@
       "required": true,
       "schema": {
        "type": "integer",
+       "maximum": 2147483647,
+       "minimum": 1,
        "title": "Order Id"
       }
      }
@@ -1309,6 +1342,8 @@
       "required": true,
       "schema": {
        "type": "integer",
+       "maximum": 2147483647,
+       "minimum": 1,
        "title": "Order Id"
       }
      }
@@ -1384,8 +1419,54 @@
      {
       "HTTPBearer": []
      }
+    ]
+   }
+  },
+  "/csv/upload-url": {
+   "post": {
+    "tags": [
+     "orders"
     ],
-    "parameters": []
+    "summary": "Csv Upload Url",
+    "description": "A short-lived signed form for posting a CSV straight into the inbox bucket.\n\n503 when no bucket is configured, which tells the page to use the multipart upload instead.",
+    "operationId": "csv_upload_url_csv_upload_url_post",
+    "requestBody": {
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/UploadUrlRequest"
+       }
+      }
+     },
+     "required": true
+    },
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/UploadUrlOut"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    },
+    "security": [
+     {
+      "HTTPBearer": []
+     }
+    ]
    }
   },
   "/csv/inbox": {
@@ -1416,8 +1497,7 @@
      {
       "HTTPBearer": []
      }
-    ],
-    "parameters": []
+    ]
    }
   },
   "/csv/import-from-inbox": {
@@ -1463,8 +1543,7 @@
      {
       "HTTPBearer": []
      }
-    ],
-    "parameters": []
+    ]
    }
   },
   "/csv/batches": {
@@ -1538,8 +1617,7 @@
        }
       }
      }
-    },
-    "parameters": []
+    }
    }
   },
   "/printers": {
@@ -1569,8 +1647,7 @@
      {
       "HTTPBearer": []
      }
-    ],
-    "parameters": []
+    ]
    }
   },
   "/orders/{order_id}/print": {
@@ -1593,6 +1670,8 @@
       "required": true,
       "schema": {
        "type": "integer",
+       "maximum": 2147483647,
+       "minimum": 1,
        "title": "Order Id"
       }
      }
@@ -1650,6 +1729,8 @@
       "required": true,
       "schema": {
        "type": "integer",
+       "maximum": 2147483647,
+       "minimum": 1,
        "title": "Order Id"
       }
      },
@@ -1669,7 +1750,9 @@
       "schema": {
        "anyOf": [
         {
-         "type": "integer"
+         "type": "integer",
+         "maximum": 2147483647,
+         "minimum": 1
         },
         {
          "type": "null"
@@ -1700,15 +1783,122 @@
      }
     }
    }
+  },
+  "/app-settings": {
+   "get": {
+    "tags": [
+     "app-settings"
+    ],
+    "summary": "Read App Settings",
+    "description": "Readable by operators too: the print dialog shows text the way it will print.",
+    "operationId": "read_app_settings_app_settings_get",
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/AppSettingsOut"
+        }
+       }
+      }
+     }
+    },
+    "security": [
+     {
+      "HTTPBearer": []
+     }
+    ]
+   },
+   "patch": {
+    "tags": [
+     "app-settings"
+    ],
+    "summary": "Update App Settings",
+    "operationId": "update_app_settings_app_settings_patch",
+    "requestBody": {
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/AppSettingsUpdate"
+       }
+      }
+     },
+     "required": true
+    },
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/AppSettingsOut"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    },
+    "security": [
+     {
+      "HTTPBearer": []
+     }
+    ]
+   }
   }
  },
  "components": {
   "schemas": {
+   "AppSettingsOut": {
+    "properties": {
+     "uppercase_text": {
+      "type": "boolean",
+      "title": "Uppercase Text"
+     },
+     "updated_at": {
+      "type": "string",
+      "format": "date-time",
+      "title": "Updated At"
+     }
+    },
+    "type": "object",
+    "required": [
+     "uppercase_text",
+     "updated_at"
+    ],
+    "title": "AppSettingsOut"
+   },
+   "AppSettingsUpdate": {
+    "properties": {
+     "uppercase_text": {
+      "anyOf": [
+       {
+        "type": "boolean"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Uppercase Text"
+     }
+    },
+    "type": "object",
+    "title": "AppSettingsUpdate"
+   },
    "Body_upload_csv_csv_upload_post": {
     "properties": {
      "file": {
       "type": "string",
-      "format": "binary",
+      "contentMediaType": "application/octet-stream",
       "title": "File"
      }
     },
@@ -1722,7 +1912,7 @@
     "properties": {
      "file": {
       "type": "string",
-      "format": "binary",
+      "contentMediaType": "application/octet-stream",
       "title": "File"
      }
     },
@@ -1736,7 +1926,7 @@
     "properties": {
      "file": {
       "type": "string",
-      "format": "binary",
+      "contentMediaType": "application/octet-stream",
       "title": "File"
      }
     },
@@ -2039,6 +2229,8 @@
     "properties": {
      "filename": {
       "type": "string",
+      "maxLength": 255,
+      "minLength": 1,
       "title": "Filename"
      }
     },
@@ -2586,6 +2778,18 @@
       "title": "White Passes",
       "default": 0
      },
+     "operator_note": {
+      "anyOf": [
+       {
+        "type": "string",
+        "maxLength": 500
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Operator Note"
+     },
      "is_active": {
       "type": "boolean",
       "title": "Is Active",
@@ -2714,6 +2918,17 @@
       "type": "integer",
       "title": "White Passes"
      },
+     "operator_note": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Operator Note"
+     },
      "is_active": {
       "type": "boolean",
       "title": "Is Active"
@@ -2740,6 +2955,7 @@
      "page_size",
      "print_passes",
      "white_passes",
+     "operator_note",
      "is_active"
     ],
     "title": "PrintFormatOut"
@@ -2913,6 +3129,18 @@
        }
       ],
       "title": "White Passes"
+     },
+     "operator_note": {
+      "anyOf": [
+       {
+        "type": "string",
+        "maxLength": 500
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Operator Note"
      },
      "is_active": {
       "anyOf": [
@@ -3407,6 +3635,53 @@
     ],
     "title": "TokenResponse"
    },
+   "UploadUrlOut": {
+    "properties": {
+     "url": {
+      "type": "string",
+      "title": "Url"
+     },
+     "fields": {
+      "additionalProperties": {
+       "type": "string"
+      },
+      "type": "object",
+      "title": "Fields"
+     },
+     "filename": {
+      "type": "string",
+      "title": "Filename"
+     },
+     "expires_in": {
+      "type": "integer",
+      "title": "Expires In"
+     }
+    },
+    "type": "object",
+    "required": [
+     "url",
+     "fields",
+     "filename",
+     "expires_in"
+    ],
+    "title": "UploadUrlOut",
+    "description": "Where and how the browser may POST a CSV form directly into the bucket."
+   },
+   "UploadUrlRequest": {
+    "properties": {
+     "filename": {
+      "type": "string",
+      "maxLength": 255,
+      "minLength": 1,
+      "title": "Filename"
+     }
+    },
+    "type": "object",
+    "required": [
+     "filename"
+    ],
+    "title": "UploadUrlRequest"
+   },
    "UserCreate": {
     "properties": {
      "email": {
@@ -3437,7 +3712,9 @@
      "store_id": {
       "anyOf": [
        {
-        "type": "integer"
+        "type": "integer",
+        "maximum": 2147483647.0,
+        "minimum": 1.0
        },
        {
         "type": "null"
@@ -3571,7 +3848,9 @@
      "store_id": {
       "anyOf": [
        {
-        "type": "integer"
+        "type": "integer",
+        "maximum": 2147483647.0,
+        "minimum": 1.0
        },
        {
         "type": "null"
@@ -3617,6 +3896,13 @@
      "type": {
       "type": "string",
       "title": "Error Type"
+     },
+     "input": {
+      "title": "Input"
+     },
+     "ctx": {
+      "type": "object",
+      "title": "Context"
      }
     },
     "type": "object",
